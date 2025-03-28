@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/img/4.png" type="image/x-icon">
+    <title>My Profile</title>
+    <style>
+        @keyframes flicker {
+            0% { background: radial-gradient(circle at center, rgba(128, 0, 255, 0.6), rgba(10, 10, 30, 1)); }
+            5% { background: radial-gradient(circle at center, rgba(140, 20, 255, 0.65), rgba(12, 12, 32, 1)); }
+            10% { background: radial-gradient(circle at center, rgba(150, 30, 255, 0.7), rgba(14, 14, 34, 1)); }
+            15% { background: radial-gradient(circle at center, rgba(160, 40, 255, 0.75), rgba(16, 16, 36, 1)); }
+            25% { background: radial-gradient(circle at center, rgba(170, 50, 255, 0.8), rgba(18, 18, 38, 1)); }
+            35% { background: radial-gradient(circle at center, rgba(160, 50, 255, 0.85), rgba(20, 20, 40, 1)); }
+            50% { background: radial-gradient(circle at center, rgba(160, 50, 255, 0.8), rgba(15, 15, 40, 1)); }
+            65% { background: radial-gradient(circle at center, rgba(150, 40, 255, 0.75), rgba(14, 14, 38, 1)); }
+            75% { background: radial-gradient(circle at center, rgba(140, 30, 255, 0.7), rgba(12, 12, 36, 1)); }
+            85% { background: radial-gradient(circle at center, rgba(130, 20, 255, 0.65), rgba(10, 10, 34, 1)); }
+            100% { background: radial-gradient(circle at center, rgba(128, 0, 255, 0.6), rgba(10, 10, 30, 1)); }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at center, rgba(128, 0, 255, 0.6), rgba(10, 10, 30, 1));
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Đảm bảo nền phủ toàn bộ màn hình */
+            animation: flicker 3s infinite alternate ease-in-out; /* Áp dụng hiệu ứng nền động */
+        }
+        .profile-container {
+            width: 800px;
+            background: #242526;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px ;
+        }
+        .cover-photo {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden; /* Đảm bảo video không tràn ra ngoài */
+            background: url('/img/еблань1.mp4') center/cover no-repeat;
+        }
+        .edit-cover {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .profile-info {
+            padding: 20px;
+            position: relative;
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 10px solid #242526;
+            margin-top: -105px;
+        }
+        .edit-avatar {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .name {
+            font-size: 26px;
+            font-weight: bold;
+            white-space: nowrap; /* Đảm bảo chữ không xuống dòng */
+            overflow: hidden; /* Ẩn phần chữ chưa được gõ */
+            border-right: 2px solid white; /* Hiệu ứng con trỏ nhấp nháy */
+            animation: typing 3s steps(30, end), blink 0.5s step-end infinite alternate;
+            width: 100%; /* Đảm bảo chữ vẫn hiển thị sau khi hiệu ứng kết thúc */
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%; /* Hiển thị toàn bộ nội dung */
+            }
+        }
+
+        @keyframes blink {
+            from {
+                border-color: transparent;
+            }
+            to {
+                border-color: white;
+            }
+        }
+        .bio {
+            color: #b0b3b8;
+        }
+        .edit-profile {
+            background: #2d88ff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: #242526;
+            border-top: 1px solid #3A3B3C;
+        }
+        .menu a {
+            color: #b0b3b8;
+            text-decoration: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .menu a:hover {
+            color: white;
+            border-bottom: 2px solid #f86cfd;
+        }
+        .content {
+            padding: 20px;
+        }
+        .friends, .posts, .about, .skills, .contact {
+            background: #3A3B3C;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .skill-bar {
+            background: #444;
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden; /* Đảm bảo hiệu ứng không tràn ra ngoài */
+            width: 100%; /* Sử dụng giá trị tĩnh từ biến CSS */
+        }
+        .skill-bar span {
+            display: block;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400%;
+            animation: glowing 15s linear infinite, grow 2s ease-in-out forwards; /* Kết hợp animation grow */
+            transition: opacity .3s ease-in-out;
+            text-align: right;
+            padding-left: 15px;
+            padding-right: 10px;
+            color: white;
+            border-radius: 20px;
+        }
+        @keyframes rainbow {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+        .glow-on-hover {
+            width: 220px;
+            height: 50px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #111;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+        }
+
+        .glow-on-hover:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left:-2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .glow-on-hover:active {
+            color: #000
+        }
+
+        .glow-on-hover:active:after {
+            background: transparent;
+        }
+
+        .glow-on-hover:hover:before {
+            opacity: 1;
+        }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% { background-position: 0 0; }
+        50% { background-position: 400% 0; }
+        100% { background-position: 0 0; }
+    }
+    #open-profile-btn {
+        font-size: 20px; /* Tăng kích thước chữ */
+        font-weight: bold; /* Làm chữ in đậm */
+        text-transform: uppercase; /* Chuyển chữ thành in hoa */
+        color: #fff; /* Màu chữ trắng */
+        background: #111; /* Nền đen */
+        padding: 15px 30px; /* Tăng khoảng cách bên trong nút */
+        border-radius: 10px; /* Bo góc nút */
+        cursor: pointer; /* Thêm hiệu ứng con trỏ */
+        border: none; /* Loại bỏ viền */
+    }
+
+    .about h4 {
+        color: #f86cfd;
+        margin-bottom: 10px;
+    }
+
+    .about ul li {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .about ul li i {
+        margin-right: 10px;
+        color: #f86cfd;
+    }
+    
+    @keyframes grow {
+        from {
+            width: 0;
+        }
+        to {
+            width: var(--skill-level); /* Đạt đến mức kỹ năng dựa trên giá trị var(--skill-level) */
+        }
+    }
+    
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    function showSection(section) {
+        let sections = ['friends', 'posts', 'about', 'skills', 'contact'];
+        sections.forEach(sec => {
+            let element = document.getElementById(sec + '-section');
+            if (element) {
+                element.style.display = (sec === section) ? 'block' : 'none';
+            }
+        });
+    }
+
+    // Gán sự kiện click cho menu
+    document.querySelectorAll(".menu a").forEach(item => {
+        item.addEventListener("click", function(event) {
+            event.preventDefault(); // Ngăn chặn load lại trang
+            let section = this.getAttribute("data-section");
+            showSection(section);
+        });
+    });
+
+    // Hiển thị phần đầu tiên mặc định
+    showSection('about');
+});
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameElement = document.querySelector(".name");
+        if (!nameElement) {
+            console.error("Không tìm thấy phần tử .name");
+            return;
+        }
+
+        const fullText = "Nguyễn Trương Thế Anh"; // Nội dung chính
+        const characters = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㄳㄵㄶㄺㄻㄼㄽㄾㄿㅀㅄㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣㅐㅒㅔㅖㅘㅙㅚㅝㅞㅟㅢ"; // Ký tự ngẫu nhiên
+        let iterations = 0;
+
+        function scrambleText() {
+            if (iterations <= fullText.length) {
+                const scrambledText = fullText
+                    .split("")
+                    .map((char, index) => {
+                        if (index < iterations) {
+                            return fullText[index]; // Hiển thị ký tự đúng sau khi hoàn tất
+                        }
+                        return characters[Math.floor(Math.random() * characters.length)]; // Ký tự ngẫu nhiên
+                    })
+                    .join("");
+
+                nameElement.textContent = scrambledText;
+                iterations++;
+                setTimeout(scrambleText, 600); // Tốc độ hiệu ứng (600ms mỗi lần lặp)
+            } else {
+                nameElement.textContent = fullText; // Hiển thị nội dung chính sau khi hoàn tất
+            }
+        }
+
+        scrambleText(); // Bắt đầu hiệu ứng
+    });
+    </script>
+
+</head>
+<body>
+    <!-- Nút Open Profile -->
+    <button id="open-profile-btn" class="glow-on-hover" type="button">OPEN PROFILE</button>
+
+    <!-- Phần profile-container -->
+    <div id="profile-container" class="profile-container" style="display: none;">
+        <div class="cover-photo">
+            <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+                <source src="/img/еблань1.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ video.
+            </video>
+        </div>
+        <div class="profile-info">
+            <img src="/img/486275942_1054638189811452_3765516665303019564_n.jpg" alt="Avatar" class="profile-photo">
+            <div class="name">Nguyễn Trương Thế Anh</div>
+            <div class="bio">|Sống là để nhìn nhận bản thân.|</div>
+        </div>
+        <div class="menu">
+            <a data-section="posts">Dự án</a>
+            <a data-section="friends">Bạn bè</a>
+            <a data-section="about">Giới thiệu</a>
+            <a data-section="skills">Kỹ năng</a>
+            <a data-section="contact">Liên hệ</a>
+        </div>
+        
+        <div class="content">
+
+            <!--Giới thiệu-->
+            <div id="about-section" class="about">
+                <h3>Giới thiệu</h3>
+                <div style="margin-bottom: 15px;">
+                    <h4><i class="fas fa-briefcase"></i> Công việc và học vấn</h4>
+                    <p>Đang học tại STC - Cao Đẳng Kỹ Thuật Du Lịch Sài Gòn</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h4><i class="fas fa-map-marker-alt"></i> Nơi đang sinh sống</h4>
+                    <p>TP. Hồ Chí Minh</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h4><i class="fas fa-heart"></i> Sở thích</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><i class="fas fa-music"></i> Nghe nhạc</li>
+                        <li><i class="fas fa-gamepad"></i>Chơi game</li>
+                        <li><i class="fas fa-code"></i> Lập trình</li>
+                    </ul>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h4><i class="fas fa-bullseye"></i> Mục tiêu cá nhân</h4>
+                    <p>Thành lập công ty chuyên cung cấp cấu hình máy tính cho khách hàng (có thể đổi ý trong tương lai).</p>
+                </div>
+            </div>
+
+            <!--Kỹ năng-->
+            <div id="skills-section" class="skills">
+                <h3>Kỹ năng</h3>
+                    <div class="skill-rating">
+                        <i class="fab fa-html5"></i> HTML
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="--skill-level: 60%;"><span>B</span></div>
+                        </div>
+                    </div>
+                    <div class="skill-rating">
+                        <i class="fab fa-css3-alt"></i> CSS
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="--skill-level: 60%;"><span>B</span></div>
+                        </div>
+                    </div>
+                    <div class="skill-rating">
+                        <i class="fab fa-js"></i> JavaScript
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="--skill-level: 40%;"><span>C</span></div>
+                        </div>
+                    </div>
+                    <div class="skill-rating">
+                        <i class="fab fa-python"></i> Python
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="--skill-level: 20%;"><span>F </span></div>
+                        </div>
+                    </div>
+                    <div class="skill-rating">
+                        <i class="fas fa-code"></i> C++
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="--skill-level: 20%;"><span>F </span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!--Dự Án-->
+            <div id="posts-section" class="posts" style="margin:20px">
+                <h3>|Dự Án|</h3>
+                <p>Hiện tại chưa có bất kì dự án nào, trong tương lai có thể sẽ có !</p>
+            </div>
+            
+            <!--Bạn Bè-->
+            <div id="friends-section" class="friends" style="margin:20px">
+                <h3>Bạn bè</h3>
+                <p>Danh sách bạn bè:</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <img src="/img/tải xuống.png" alt="1" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                        <span>Nguyễn Võ Ngọc Hiếu =)))</span>
+                    </li>
+                    <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <img src="/img/tải xuống (1).png" alt="2" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                        <span>Trần Công Tráng =)))</span>
+                    </li>
+                    <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <img src="/img/tải xuống (2).png" alt="3" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                        <span>Trương Thanh Long =)))</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Liên Hệ-->
+            <div id="contact-section" class="contact" style="margin:20px">
+                <h3>Liên hệ</h3>
+                <p class="contact-info">
+                    <i class="fas fa-envelope"></i> 
+                    Email: <a href="mailto:latheanh2006@gmail.com" style="color: #f86cfd; text-decoration: none;">latheanh2006@gmail.com</a>
+                </p>
+                <p class="contact-info">
+                    <i class="fas fa-phone"></i> 
+                    Điện thoại: (08) 62412914
+                </p>
+                <p class="contact-info">
+                    <i class="fab fa-facebook"></i> 
+                    Facebook: <a href="https://www.facebook.com/truongtheanh.nguyen.5" target="_blank" style="color: #f86cfd; text-decoration: none;">facebook.com/my-profile</a>
+                </p>
+                <p class="contact-info">
+                    <i class="fab fa-github"></i> 
+                    GitHub: <a href="https://github.com/NTTA-BOG" target="_blank" style="color: #f86cfd; text-decoration: none;">github.com/my-profile</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hiển thị profile khi nhấn nút Open Profile
+        document.getElementById("open-profile-btn").addEventListener("click", function() {
+            document.getElementById("profile-container").style.display = "block";
+            this.style.display = "none"; // Ẩn nút sau khi nhấn
+        });
+    </script>
+</body>
+</html>
