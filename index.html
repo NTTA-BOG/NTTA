@@ -44,7 +44,7 @@
             height: 300px;
             position: relative;
             overflow: hidden; /* Đảm bảo video không tràn ra ngoài */
-            background: url('./img/еблань1.mp4') center/cover no-repeat;
+            background: url('./img/placeholder.jpg') center/cover no-repeat;
         }
         .edit-cover {
             position: absolute;
@@ -331,6 +331,21 @@
     });
     </script>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.querySelector("video");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    video.setAttribute("preload", "auto");
+                    observer.disconnect(); // Ngừng quan sát sau khi tải
+                }
+            });
+        });
+        observer.observe(video);
+    });
+    </script>
+
 </head>
 <body>
     <!-- Nút Open Profile -->
@@ -338,8 +353,8 @@
 
     <!-- Phần profile-container -->
     <div id="profile-container" class="profile-container" style="display: none;">
-        <div class="cover-photo">
-            <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="cover-photo" style="background: url('./img/placeholder.jpg') center/cover no-repeat;">
+            <video autoplay muted loop preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
                 <source src="./img/еблань1.mp4" type="video/mp4">
                 Trình duyệt của bạn không hỗ trợ video.
             </video>
