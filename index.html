@@ -290,6 +290,22 @@
             transform: translate(-50%, -50%) rotate(360deg);
         }
     }
+
+    /* Footer */
+    footer {
+        font-size: 14px;
+        border-top: 1px solid #3A3B3C;
+        margin-top: 20px;
+    }
+
+    /* Social Plugins */
+    .social-plugins img {
+        transition: transform 0.3s ease;
+    }
+
+    .social-plugins img:hover {
+        transform: scale(1.2);
+    }
     </style>
 
     <script>
@@ -373,6 +389,7 @@
 
     <!-- Phần profile-container -->
     <div id="profile-container" class="profile-container" style="display: none;">
+        
         <div class="cover-photo">
             <div id="loading-animation" class="loading-animation"></div>
             <video autoplay muted loop preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
@@ -459,7 +476,13 @@
             <!--Dự Án-->
             <div id="posts-section" class="posts" style="margin:20px">
                 <h3>|Dự Án|</h3>
-                <p>Hiện tại chưa có bất kì dự án nào, trong tương lai có thể sẽ có !</p>
+                <ul>
+                    <li><a href="#">Dự án 1: Website bán hàng</a></li>
+                    <li><a href="#">Dự án 2: Ứng dụng quản lý công việc</a></li>
+                    <li><a href="#">Dự án 3: Blog cá nhân</a></li>
+                    <li><a href="#">Dự án 4: Portfolio</a></li>
+                    <li><a href="#">Dự án 5: Hệ thống quản lý sinh viên</a></li>
+                </ul>
             </div>
             
             <!--Bạn Bè-->
@@ -502,9 +525,42 @@
                     GitHub: <a href="https://github.com/NTTA-BOG" target="_blank" style="color: #f86cfd; text-decoration: none;">github.com/my-profile</a>
                 </p>
             </div>
+
+            <!-- Form liên hệ -->
+            <div id="contact-form" style="margin: 20px; padding: 20px; background: #3A3B3C; border-radius: 5px;">
+                <h3>Liên hệ</h3>
+                <form action="https://formspree.io/f/your-form-id" method="POST">
+                    <label for="name">Họ và tên:</label><br>
+                    <input type="text" id="name" name="name" required style="width: 100%; margin-bottom: 10px;"><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required style="width: 100%; margin-bottom: 10px;"><br>
+                    <label for="message">Tin nhắn:</label><br>
+                    <textarea id="message" name="message" rows="5" required style="width: 100%; margin-bottom: 10px;"></textarea><br>
+                    <button type="submit" style="background: #2d88ff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Gửi</button>
+                </form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 20px; background: #242526; color: #b0b3b8;">
+            <p>&copy; 2023 Nguyễn Trương Thế Anh. Tất cả các quyền được bảo lưu.</p>
+
+        <!-- Plugin lượt truy cập -->
+        <div id="visitor-counter" style="text-align: center; margin: 10px 0; color: white;">
+            <p>Lượt truy cập: <span id="visit-count">0</span></p>
         </div>
     </div>
 
+   
+    
+    <script>
+        // Đếm lượt truy cập
+        let visitCount = localStorage.getItem('visitCount') || 0;
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount);
+        document.getElementById('visit-count').textContent = visitCount;
+    </script>
+
+    
     <script>
         // Hiển thị profile khi nhấn nút Open Profile
         document.getElementById("open-profile-btn").addEventListener("click", function() {
@@ -512,5 +568,7 @@
             this.style.display = "none"; // Ẩn nút sau khi nhấn
         });
     </script>
+
+    
 </body>
 </html>
