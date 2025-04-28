@@ -3,478 +3,1200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="/img/4.png" type="image/x-icon">
-    <title>My Profile</title>
+    <title>Profile - NTTA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="./img/4.png" type="image/x-icon">
     <style>
-        @keyframes flicker {
-            0% { background: radial-gradient(circle at center, rgba(128, 0, 255, 0.6), rgba(10, 10, 30, 1)); }
-            5% { background: radial-gradient(circle at center, rgba(140, 20, 255, 0.65), rgba(12, 12, 32, 1)); }
-            10% { background: radial-gradient(circle at center, rgba(150, 30, 255, 0.7), rgba(14, 14, 34, 1)); }
-            15% { background: radial-gradient(circle at center, rgba(160, 40, 255, 0.75), rgba(16, 16, 36, 1)); }
-            25% { background: radial-gradient(circle at center, rgba(170, 50, 255, 0.8), rgba(18, 18, 38, 1)); }
-            35% { background: radial-gradient(circle at center, rgba(160, 50, 255, 0.85), rgba(20, 20, 40, 1)); }
-            50% { background: radial-gradient(circle at center, rgba(160, 50, 255, 0.8), rgba(15, 15, 40, 1)); }
-            65% { background: radial-gradient(circle at center, rgba(150, 40, 255, 0.75), rgba(14, 14, 38, 1)); }
-            75% { background: radial-gradient(circle at center, rgba(140, 30, 255, 0.7), rgba(12, 12, 36, 1)); }
-            85% { background: radial-gradient(circle at center, rgba(130, 20, 255, 0.65), rgba(10, 10, 34, 1)); }
-            100% { background: radial-gradient(circle at center, rgba(128, 0, 255, 0.6), rgba(10, 10, 30, 1)); }
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --accent: #fd79a8;
+            --success: #00b894;
+            
+            /* Dark mode variables */
+            --bg-color: #f5f6fa;
+            --text-color: #2d3436;
+            --card-bg: white;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-color: #dfe6e9;
         }
-        body {
-            font-family: Arial, sans-serif;
-            background: radial-gradient(circle at center, rgba(128, 0, 255, 0.6), rgba(10, 10, 30, 1));
-            color: white;
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #f5f6fa;
+            --card-bg: #16213e;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --border-color: #2d3436;
+            --dark: #f5f6fa;
+            --light: #2d3436;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .cover-photo {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .cover-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .cover-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 0;
+        }
+        
+        .profile-photo-container {
+            position: relative;
+            width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh; /* Đảm bảo nền phủ toàn bộ màn hình */
-            animation: flicker 3s infinite alternate ease-in-out; /* Áp dụng hiệu ứng nền động */
         }
-        .profile-container {
-            width: 800px;
-            background: #242526;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0px 4px 8px ;
-        }
-        .cover-photo {
-            width: 100%;
-            height: 300px;
-            position: relative;
-            overflow: hidden; /* Đảm bảo video không tràn ra ngoài */
-            background: url('/img/еблань1.mp4') center/cover no-repeat;
-        }
-        .edit-cover {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .profile-info {
-            padding: 20px;
-            position: relative;
-        }
+        
         .profile-photo {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            border: 10px solid #242526;
-            margin-top: -105px;
-        }
-        .edit-avatar {
+            border: 5px solid var(--card-bg);
+            object-fit: cover;
             position: absolute;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 50%;
-            cursor: pointer;
+            top: -75px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            z-index: 999;
         }
-        .name {
-            font-size: 26px;
-            font-weight: bold;
-            white-space: nowrap; /* Đảm bảo chữ không xuống dòng */
-            overflow: hidden; /* Ẩn phần chữ chưa được gõ */
-            border-right: 2px solid white; /* Hiệu ứng con trỏ nhấp nháy */
-            animation: typing 3s steps(30, end), blink 0.5s step-end infinite alternate;
-            width: 100%; /* Đảm bảo chữ vẫn hiển thị sau khi hiệu ứng kết thúc */
+        
+        .profile-info {
+            padding: 90px 2rem 2rem;
+            text-align: center;
         }
-
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%; /* Hiển thị toàn bộ nội dung */
-            }
+        
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
         }
-
-        @keyframes blink {
-            from {
-                border-color: transparent;
-            }
-            to {
-                border-color: white;
-            }
+        
+        .profile-title {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
         }
-        .bio {
-            color: #b0b3b8;
+        
+        .profile-bio {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .edit-profile {
-            background: #2d88ff;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        .menu {
+        
+        .social-links {
             display: flex;
-            justify-content: space-around;
-            padding: 10px;
-            background: #242526;
-            border-top: 1px solid #3A3B3C;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-        .menu a {
-            color: #b0b3b8;
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: all 0.3s ease;
             text-decoration: none;
-            padding: 10px;
-            cursor: pointer;
         }
-        .menu a:hover {
+        
+        .social-link:hover {
+            background: var(--primary);
             color: white;
-            border-bottom: 2px solid #f86cfd;
+            transform: translateY(-3px);
         }
-        .content {
-            padding: 20px;
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
         }
-        .friends, .posts, .about, .skills, .contact {
-            background: #3A3B3C;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+        
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.7;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            opacity: 1;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .tab-content {
+            padding: 2rem;
             display: none;
         }
-        .skill-bar {
-            background: #444;
-            height: 20px;
-            border-radius: 10px;
-            margin: 10px 0;
-            position: relative;
-            overflow: hidden; /* Đảm bảo hiệu ứng không tràn ra ngoài */
-            width: 100%; /* Sử dụng giá trị tĩnh từ biến CSS */
-        }
-        .skill-bar span {
+        
+        .tab-content.active {
             display: block;
-            height: 100%;
-            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-            background-size: 400%;
-            animation: glowing 15s linear infinite, grow 2s ease-in-out forwards; /* Kết hợp animation grow */
-            transition: opacity .3s ease-in-out;
-            text-align: right;
-            padding-left: 15px;
-            padding-right: 10px;
-            color: white;
-            border-radius: 20px;
+            animation: fadeIn 0.5s ease;
         }
-        @keyframes rainbow {
-            0% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-            100% { background-position: 0 0; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .glow-on-hover {
-            width: 220px;
-            height: 50px;
-            border: none;
-            outline: none;
-            color: #fff;
-            background: #111;
-            cursor: pointer;
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
             position: relative;
-            z-index: 0;
-            border-radius: 10px;
+            padding-bottom: 0.5rem;
         }
-
-        .glow-on-hover:before {
+        
+        .section-title::after {
             content: '';
-            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
             position: absolute;
-            top: -2px;
-            left:-2px;
-            background-size: 400%;
-            z-index: -1;
-            filter: blur(5px);
-            width: calc(100% + 4px);
-            height: calc(100% + 4px);
-            animation: glowing 20s linear infinite;
-            opacity: 0;
-            transition: opacity .3s ease-in-out;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .about-item {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .about-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(108, 92, 231, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        .about-text h4 {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+        
+        .about-text p {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .skill-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
             border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-image {
+            height: 180px;
+            background: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            position: relative;
+            overflow: hidden;
         }
 
-        .glow-on-hover:active {
-            color: #000
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .project-desc {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .project-link {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .project-link:hover {
+            color: var(--secondary);
+        }
+        
+        .friends-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .friend-card {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .friend-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .friend-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        
+        .friend-name {
+            font-weight: 500;
+            color: var(--dark);
         }
 
-        .glow-on-hover:active:after {
-            background: transparent;
+        .friend-title {
+            font-size: 0.8rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
         }
 
-        .glow-on-hover:hover:before {
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border: 4px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: button-loading-spinner 1s ease infinite;
+        }
+
+        @keyframes button-loading-spinner {
+            from {
+                transform: rotate(0turn);
+            }
+            to {
+                transform: rotate(1turn);
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--card-bg);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            cursor: pointer;
+            border: none;
+            color: var(--text-color);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--border-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--card-bg);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+            text-align: right;
+        }
+
+        .right {
+            left: 50%;
+            text-align: left;
+        }
+
+        .left::after {
+            right: -10px;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 3px 10px var(--shadow-color);
+        }
+
+        .timeline-date {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .timeline-title {
+            margin: 10px 0;
+            color: var(--dark);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
             opacity: 1;
         }
+        
+        @media (max-width: 768px) {
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+                top: -60px;
+            }
+            
+            .profile-info {
+                padding-top: 70px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+            
+            .tab {
+                padding: 1rem;
+            }
+            
+            .theme-switcher {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
 
-    .glow-on-hover:after {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #111;
-        left: 0;
-        top: 0;
-        border-radius: 10px;
-    }
+            .timeline::after {
+                left: 31px;
+            }
 
-    @keyframes glowing {
-        0% { background-position: 0 0; }
-        50% { background-position: 400% 0; }
-        100% { background-position: 0 0; }
-    }
-    #open-profile-btn {
-        font-size: 20px; /* Tăng kích thước chữ */
-        font-weight: bold; /* Làm chữ in đậm */
-        text-transform: uppercase; /* Chuyển chữ thành in hoa */
-        color: #fff; /* Màu chữ trắng */
-        background: #111; /* Nền đen */
-        padding: 15px 30px; /* Tăng khoảng cách bên trong nút */
-        border-radius: 10px; /* Bo góc nút */
-        cursor: pointer; /* Thêm hiệu ứng con trỏ */
-        border: none; /* Loại bỏ viền */
-    }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
 
-    .about h4 {
-        color: #f86cfd;
-        margin-bottom: 10px;
-    }
+            .timeline-item::after {
+                left: 21px;
+            }
 
-    .about ul li {
-        margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-    }
+            .left, .right {
+                left: 0;
+                text-align: left;
+            }
 
-    .about ul li i {
-        margin-right: 10px;
-        color: #f86cfd;
-    }
-    
-    @keyframes grow {
-        from {
-            width: 0;
+            .left::after, .right::after {
+                left: 21px;
+            }
         }
-        to {
-            width: var(--skill-level); /* Đạt đến mức kỹ năng dựa trên giá trị var(--skill-level) */
+        .video-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            color: white;
+            font-size: 1.5rem;
         }
-    }
-    
+        .download-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .download-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .download-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .download-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            margin-top: 1rem;
+        }
     </style>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    function showSection(section) {
-        let sections = ['friends', 'posts', 'about', 'skills', 'contact'];
-        sections.forEach(sec => {
-            let element = document.getElementById(sec + '-section');
-            if (element) {
-                element.style.display = (sec === section) ? 'block' : 'none';
-            }
-        });
-    }
-
-    // Gán sự kiện click cho menu
-    document.querySelectorAll(".menu a").forEach(item => {
-        item.addEventListener("click", function(event) {
-            event.preventDefault(); // Ngăn chặn load lại trang
-            let section = this.getAttribute("data-section");
-            showSection(section);
-        });
-    });
-
-    // Hiển thị phần đầu tiên mặc định
-    showSection('about');
-});
-    </script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const nameElement = document.querySelector(".name");
-        if (!nameElement) {
-            console.error("Không tìm thấy phần tử .name");
-            return;
-        }
-
-        const fullText = "Nguyễn Trương Thế Anh"; // Nội dung chính
-        const characters = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㄳㄵㄶㄺㄻㄼㄽㄾㄿㅀㅄㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣㅐㅒㅔㅖㅘㅙㅚㅝㅞㅟㅢ"; // Ký tự ngẫu nhiên
-        let iterations = 0;
-
-        function scrambleText() {
-            if (iterations <= fullText.length) {
-                const scrambledText = fullText
-                    .split("")
-                    .map((char, index) => {
-                        if (index < iterations) {
-                            return fullText[index]; // Hiển thị ký tự đúng sau khi hoàn tất
-                        }
-                        return characters[Math.floor(Math.random() * characters.length)]; // Ký tự ngẫu nhiên
-                    })
-                    .join("");
-
-                nameElement.textContent = scrambledText;
-                iterations++;
-                setTimeout(scrambleText, 600); // Tốc độ hiệu ứng (600ms mỗi lần lặp)
-            } else {
-                nameElement.textContent = fullText; // Hiển thị nội dung chính sau khi hoàn tất
-            }
-        }
-
-        scrambleText(); // Bắt đầu hiệu ứng
-    });
-    </script>
-
 </head>
 <body>
-    <!-- Nút Open Profile -->
-    <button id="open-profile-btn" class="glow-on-hover" type="button">OPEN PROFILE</button>
+    <button class="theme-switcher" id="themeSwitcher">
+        <i class="fas fa-moon"></i>
+    </button>
 
-    <!-- Phần profile-container -->
-    <div id="profile-container" class="profile-container" style="display: none;">
-        <div class="cover-photo">
-            <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-                <source src="/img/еблань1.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ video.
-            </video>
-        </div>
-        <div class="profile-info">
-            <img src="/img/486275942_1054638189811452_3765516665303019564_n.jpg" alt="Avatar" class="profile-photo">
-            <div class="name">Nguyễn Trương Thế Anh</div>
-            <div class="bio">|Sống là để nhìn nhận bản thân.|</div>
-        </div>
-        <div class="menu">
-            <a data-section="posts">Dự án</a>
-            <a data-section="friends">Bạn bè</a>
-            <a data-section="about">Giới thiệu</a>
-            <a data-section="skills">Kỹ năng</a>
-            <a data-section="contact">Liên hệ</a>
+    <div class="container">
+        <div class="profile-card">
+            <div class="cover-photo">
+                <div class="video-loading">Đang tải video...</div>
+                <video autoplay muted loop playsinline class="cover-video">
+                    <source src="./img/yelan.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+                <div class="cover-fallback" style="display: none;">
+                    <span>Nguyễn Trương Thế Anh</span>
+                </div>
+            </div>
+            <div class="profile-photo-container">
+                <img src="./img/tôi.png" alt="Ảnh đại diện Nguyễn Trương Thế Anh" class="profile-photo">
+            </div>
+            
+            <div class="profile-info">
+                <h1 class="profile-name">Nguyễn Trương Thế Anh</h1>
+                <p class="profile-title">Sinh viên CNTT</p>
+                <p class="profile-bio">"Sống là để nhìn nhận bản thân. Tôi luôn đam mê công nghệ và sáng tạo, mong muốn mang lại những giải pháp hữu ích cho cộng đồng."</p>
+                
+                <div class="social-links">
+                    <a href="https://www.facebook.com/truongtheanh.nguyen.5" class="social-link" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://github.com/NTTA-BOG" class="social-link" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/mr-bob-4b6609362/" class="social-link" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:latheanh2006@gmail.com" class="social-link" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="about">Giới thiệu</div>
+                <div class="tab" data-tab="skills">Kỹ năng</div>
+                <div class="tab" data-tab="timeline">Dòng thời gian</div>
+                <div class="tab" data-tab="projects">Dự án</div>
+                <div class="tab" data-tab="friends">Bạn bè</div>
+                <div class="tab" data-tab="contact">Liên hệ</div>
+            </div>
+            
+            <div class="tab-content active" id="about">
+                <h2 class="section-title">Về tôi</h2>
+                
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="about-text">
+                        <h4>Học vấn</h4>
+                        <p>Đang học tại STC - Cao Đẳng Kỹ Thuật Du Lịch Sài Gòn, chuyên ngành Công nghệ Thông tin</p>
+                    </div>
+                </div>
+                
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="about-text">
+                        <h4>Địa điểm</h4>
+                        <p>Sống và làm việc tại TP. Hồ Chí Minh, Việt Nam</p>
+                    </div>
+                </div>
+                
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="about-text">
+                        <h4>Sở thích</h4>
+                        <p>Nghe nhạc, chơi game, lập trình, khám phá công nghệ mới, đọc sách về phát triển bản thân</p>
+                    </div>
+                </div>
+                
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="about-text">
+                        <h4>Mục tiêu</h4>
+                        <p>Trở thành Full-stack Developer chuyên nghiệp. Thành lập công ty chuyên cung cấp cấu hình máy tính cho khách hàng.</p>
+                    </div>
+                </div>
+
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="about-text">
+                        <h4>Ngôn ngữ</h4>
+                        <p>Tiếng Việt (bản ngữ), Tiếng Anh (giao tiếp cơ bản)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="skills">
+                <h2 class="section-title">Kỹ năng của tôi</h2>
+                
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fab fa-html5"></i> HTML</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fab fa-css3-alt"></i> CSS</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fab fa-js"></i> JavaScript</span>
+                            <span>40%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fab fa-python"></i> Python</span>
+                            <span>0%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fas fa-code"></i> C++</span>
+                            <span>0%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fas fa-database"></i> SQL</span>
+                            <span>10%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 10%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fab fa-git-alt"></i> Git</span>
+                            <span>15%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 15%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span><i class="fas fa-users"></i> Làm việc nhóm</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="timeline">
+                <h2 class="section-title">Dòng thời gian</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2025 - Hiện tại</div>
+                            <h3 class="timeline-title">Cao Đẳng Kỹ Thuật Du Lịch Sài Gòn</h3>
+                            <p>Chuyên ngành Công nghệ Thông tin. Đang học tập và nghiên cứu các môn học chuyên ngành.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2024</div>
+                            <h3 class="timeline-title">Học HTML/CSS cơ bản</h3>
+                            <p>Bắt đầu tự học lập trình web với HTML và CSS thông qua các khóa học online.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2021</div>
+                            <h3 class="timeline-title">Tốt nghiệp THPT</h3>
+                            <p>Tốt nghiệp Trung học Phổ thông với điểm số khá. Bắt đầu quan tâm đến lĩnh vực CNTT.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-date">2020</div>
+                            <h3 class="timeline-title">Khám phá lập trình</h3>
+                            <p>Lần đầu tiếp xúc với lập trình thông qua môn Tin học ở trường. Bắt đầu với ngôn ngữ Pascal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="projects">
+                <h2 class="section-title">Dự án của tôi</h2>
+                
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="#" alt="Trang web cá nhân">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Trang web cá nhân</h3>
+                            <p class="project-desc">Thiết kế và xây dựng trang web cá nhân giới thiệu bản thân và các dự án sử dụng HTML, CSS và JavaScript.</p>
+                            <a href="#" target="_blank" class="project-link">Xem trên GitHub <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="#" alt="Game đơn giản">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Đang cập nhật ...</h3>
+                            <p class="project-desc">Đang cập nhật ...</p>
+                            <a href="#" target="_blank" class="project-link">Xem trên GitHub <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="#" alt="Quản lý máy tính">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Đang cập nhật ...</h3>
+                            <p class="project-desc">Đang cập nhật ...</p>
+                            <a href="#" target="_blank" class="project-link">Xem trên GitHub <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="friends">
+                <h2 class="section-title">Bạn bè</h2>
+                
+                <div class="friends-list">
+                    <div class="friend-card">
+                        <img src="./img/hieu.png" alt="Nguyễn Võ Ngọc Hiếu" class="friend-avatar">
+                        <div class="friend-info">
+                            <h3 class="friend-name">Nguyễn Võ Ngọc Hiếu</h3>
+                            <p class="friend-title">Bạn học cùng lớp</p>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-card">
+                        <img src="./img/trang.png" alt="Trần Công Tráng" class="friend-avatar">
+                        <div class="friend-info">
+                            <h3 class="friend-name">Trần Công Tráng</h3>
+                            <p class="friend-title">Bạn học cùng lớp</p>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-card">
+                        <img src="./img/long.png" alt="Trương Thanh Long" class="friend-avatar">
+                        <div class="friend-info">
+                            <h3 class="friend-name">Trương Thanh Long</h3>
+                            <p class="friend-title">Bạn học cùng lớp</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="tab-content" id="contact">
+                <h2 class="section-title">Liên hệ với tôi</h2>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Họ và tên</label>
+                            <input type="text" id="name" class="form-control" placeholder="Nhập tên của bạn" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Nhập email của bạn" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Tin nhắn</label>
+                            <textarea id="message" class="form-control" placeholder="Nhập tin nhắn của bạn" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn" id="submitBtn">Gửi tin nhắn</button>
+                    </form>
+                </div>
+
+                <!-- Thêm phần tải PDF -->
+                <div class="download-section">
+                    <h3 class="download-title">Tải CV của tôi</h3>
+                    <form class="download-form" id="downloadForm">
+                        <div class="form-group">
+                            <label for="download-name" class="form-label">Họ và tên</label>
+                            <input type="text" id="download-name" class="form-control" placeholder="Nhập họ tên của bạn" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="download-email" class="form-label">Email</label>
+                            <input type="email" id="download-email" class="form-control" placeholder="Nhập email của bạn" required>
+                        </div>
+                        
+                        <button type="submit" class="btn download-btn" id="downloadBtn">
+                            <i class="fas fa-download"></i> Tải CV PDF
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
         
-        <div class="content">
-
-            <!--Giới thiệu-->
-            <div id="about-section" class="about">
-                <h3>Giới thiệu</h3>
-                <div style="margin-bottom: 15px;">
-                    <h4><i class="fas fa-briefcase"></i> Công việc và học vấn</h4>
-                    <p>Đang học tại STC - Cao Đẳng Kỹ Thuật Du Lịch Sài Gòn</p>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <h4><i class="fas fa-map-marker-alt"></i> Nơi đang sinh sống</h4>
-                    <p>TP. Hồ Chí Minh</p>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <h4><i class="fas fa-heart"></i> Sở thích</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><i class="fas fa-music"></i> Nghe nhạc</li>
-                        <li><i class="fas fa-gamepad"></i>Chơi game</li>
-                        <li><i class="fas fa-code"></i> Lập trình</li>
-                    </ul>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <h4><i class="fas fa-bullseye"></i> Mục tiêu cá nhân</h4>
-                    <p>Thành lập công ty chuyên cung cấp cấu hình máy tính cho khách hàng (có thể đổi ý trong tương lai).</p>
-                </div>
-            </div>
-
-            <!--Kỹ năng-->
-            <div id="skills-section" class="skills">
-                <h3>Kỹ năng</h3>
-                    <div class="skill-rating">
-                        <i class="fab fa-html5"></i> HTML
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-level: 60%;"><span>B</span></div>
-                        </div>
-                    </div>
-                    <div class="skill-rating">
-                        <i class="fab fa-css3-alt"></i> CSS
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-level: 60%;"><span>B</span></div>
-                        </div>
-                    </div>
-                    <div class="skill-rating">
-                        <i class="fab fa-js"></i> JavaScript
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-level: 40%;"><span>C</span></div>
-                        </div>
-                    </div>
-                    <div class="skill-rating">
-                        <i class="fab fa-python"></i> Python
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-level: 20%;"><span>F </span></div>
-                        </div>
-                    </div>
-                    <div class="skill-rating">
-                        <i class="fas fa-code"></i> C++
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-level: 20%;"><span>F </span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!--Dự Án-->
-            <div id="posts-section" class="posts" style="margin:20px">
-                <h3>|Dự Án|</h3>
-                <p>Hiện tại chưa có bất kì dự án nào, trong tương lai có thể sẽ có !</p>
-            </div>
-            
-            <!--Bạn Bè-->
-            <div id="friends-section" class="friends" style="margin:20px">
-                <h3>Bạn bè</h3>
-                <p>Danh sách bạn bè:</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <img src="/img/tải xuống.png" alt="1" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                        <span>Nguyễn Võ Ngọc Hiếu =)))</span>
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <img src="/img/tải xuống (1).png" alt="2" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                        <span>Trần Công Tráng =)))</span>
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <img src="/img/tải xuống (2).png" alt="3" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                        <span>Trương Thanh Long =)))</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!--Liên Hệ-->
-            <div id="contact-section" class="contact" style="margin:20px">
-                <h3>Liên hệ</h3>
-                <p class="contact-info">
-                    <i class="fas fa-envelope"></i> 
-                    Email: <a href="mailto:latheanh2006@gmail.com" style="color: #f86cfd; text-decoration: none;">latheanh2006@gmail.com</a>
-                </p>
-                <p class="contact-info">
-                    <i class="fas fa-phone"></i> 
-                    Điện thoại: (08) 62412914
-                </p>
-                <p class="contact-info">
-                    <i class="fab fa-facebook"></i> 
-                    Facebook: <a href="https://www.facebook.com/truongtheanh.nguyen.5" target="_blank" style="color: #f86cfd; text-decoration: none;">facebook.com/my-profile</a>
-                </p>
-                <p class="contact-info">
-                    <i class="fab fa-github"></i> 
-                    GitHub: <a href="https://github.com/NTTA-BOG" target="_blank" style="color: #f86cfd; text-decoration: none;">github.com/my-profile</a>
-                </p>
-            </div>
+        <div class="footer">
+            <p>&copy; <span id="currentYear"></span> Nguyễn Trương Thế Anh. All rights reserved.</p>
         </div>
     </div>
 
+    <div class="toast" id="toast"></div>
+
     <script>
-        // Hiển thị profile khi nhấn nút Open Profile
-        document.getElementById("open-profile-btn").addEventListener("click", function() {
-            document.getElementById("profile-container").style.display = "block";
-            this.style.display = "none"; // Ẩn nút sau khi nhấn
+        
+        // Name scramble effect
+        document.addEventListener("DOMContentLoaded", function () {
+            const nameElement = document.querySelector(".profile-name");
+            if (!nameElement) {
+                console.error("Không tìm thấy phần tử .profile-name");
+                return;
+            }
+    
+            const fullText = "Nguyễn Trương Thế Anh";
+            const characters = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍ";
+            let iterations = 0;
+    
+            function scrambleText() {
+                if (iterations <= fullText.length) {
+                    const scrambledText = fullText
+                        .split("")
+                        .map((char, index) => {
+                            if (index < iterations) {
+                                return fullText[index];
+                            }
+                            return characters[Math.floor(Math.random() * characters.length)];
+                        })
+                        .join("");
+    
+                    nameElement.textContent = scrambledText;
+                    iterations++;
+                    setTimeout(scrambleText, 300);
+                } else {
+                    nameElement.textContent = fullText;
+                }
+            }
+    
+            scrambleText();
+        });
+
+        // Video loading handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const coverVideo = document.querySelector('.cover-video');
+            const videoLoading = document.querySelector('.video-loading');
+            const coverFallback = document.querySelector('.cover-fallback');
+            
+            coverVideo.addEventListener('loadeddata', function() {
+                videoLoading.style.display = 'none';
+                this.play().catch(e => {
+                    this.muted = true;
+                    this.play();
+                });
+            });
+            
+            coverVideo.addEventListener('error', function() {
+                videoLoading.style.display = 'none';
+                coverFallback.style.display = 'flex';
+            });
+            
+            // If video doesn't load within 5 seconds, show fallback
+            setTimeout(() => {
+                if (coverVideo.readyState < 3) { // 3 = HAVE_FUTURE_DATA
+                    videoLoading.style.display = 'none';
+                    coverFallback.style.display = 'flex';
+                }
+            }, 5000);
+        });
+
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Animate skill bars when skills tab is opened
+            const skillsTab = document.querySelector('.tab[data-tab="skills"]');
+            skillsTab.addEventListener('click', () => {
+                const skillProgresses = document.querySelectorAll('.skill-progress');
+                skillProgresses.forEach(progress => {
+                    const width = progress.style.width;
+                    progress.style.width = '0';
+                    setTimeout(() => {
+                        progress.style.width = width;
+                    }, 100);
+                });
+            });
+            
+            // Dark/Light mode toggle
+            const themeSwitcher = document.getElementById('themeSwitcher');
+            const body = document.body;
+            
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                body.classList.add('dark-mode');
+                themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            themeSwitcher.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Contact form submission
+            const contactForm = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const toast = document.getElementById('toast');
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                submitBtn.classList.add('btn-loading');
+                submitBtn.disabled = true;
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    submitBtn.classList.remove('btn-loading');
+                    submitBtn.disabled = false;
+                    
+                    // Show success message
+                    toast.textContent = 'Tin nhắn đã được gửi thành công!';
+                    toast.classList.add('show');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Hide toast after 3 seconds
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }, 1500);
+            });
         });
     </script>
+    
 </body>
 </html>
